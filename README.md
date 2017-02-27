@@ -47,7 +47,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
             Realm = "My Application",
             OnValidatePrincipal = context =>
             {
-                // heve validation comes
+                // here validation comes
                 if ((context.UserName == "userName") && (context.Password == "password"))
                 {
                     var claims = new List<Claim>
@@ -60,10 +60,12 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
                             new ClaimsIdentity(claims, context.Options.AuthenticationScheme)),
                         new AuthenticationProperties(),
                         context.Options.AuthenticationScheme);
-
+                    
+                    // return success result with ticket
                     return Task.FromResult(AuthenticateResult.Success(ticket));
                 }
 
+                // return failed result
                 return Task.FromResult(AuthenticateResult.Fail("Authentication failed."));
             }
         }
