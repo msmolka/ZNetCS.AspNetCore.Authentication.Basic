@@ -42,9 +42,9 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
 {   
     var options = new BasicAuthenticationOptions
     {
+    	Realm = "My Application",
         Events = new BasicAuthenticationEvents
-        {
-            Realm = "My Application",
+        {            
             OnValidatePrincipal = context =>
             {
                 // here validation comes
