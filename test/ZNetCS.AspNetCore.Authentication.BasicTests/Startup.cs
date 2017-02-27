@@ -17,7 +17,6 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
-    using ZNetCS.AspNetCore.Authentication.Basic;
     using ZNetCS.AspNetCore.Authentication.Basic.DependecyInjection;
 
     #endregion
