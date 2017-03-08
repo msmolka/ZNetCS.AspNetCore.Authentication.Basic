@@ -1,21 +1,20 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EC6AC5C8-ACCF-492E-99E6-28E935E993C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EBBE213E-359F-4158-9AB8-3C46BDBAA30C}"
 	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZNetCS.AspNetCore.Authentication.Basic", "src\ZNetCS.AspNetCore.Authentication.Basic\ZNetCS.AspNetCore.Authentication.Basic.xproj", "{0C36B232-F48E-4BCC-8F11-840A9694B75D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3D8699E9-972B-47E0-9A9F-FEA369A9C832}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ZNetCS.AspNetCore.Authentication.BasicTests", "test\ZNetCS.AspNetCore.Authentication.BasicTests\ZNetCS.AspNetCore.Authentication.BasicTests.xproj", "{16932A67-81EA-4D76-873C-C22FA81F1A2D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZNetCS.AspNetCore.Authentication.Basic", "src\ZNetCS.AspNetCore.Authentication.Basic\ZNetCS.AspNetCore.Authentication.Basic.csproj", "{0C36B232-F48E-4BCC-8F11-840A9694B75D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZNetCS.AspNetCore.Authentication.BasicTests", "test\ZNetCS.AspNetCore.Authentication.BasicTests\ZNetCS.AspNetCore.Authentication.BasicTests.csproj", "{16932A67-81EA-4D76-873C-C22FA81F1A2D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
