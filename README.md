@@ -12,7 +12,7 @@ Install using the [ZNetCS.AspNetCore.Authentication.Basic NuGet package](https:/
 PM> Install-Package ZNetCS.AspNetCore.Authentication.Basic
 ```
 
-##Usage 
+## Usage 
 
 When you install the package, it should be added to your `package.json`. Alternatively, you can add it directly by adding:
 
