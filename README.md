@@ -71,9 +71,9 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
         }
     };
         
-	app.UseBasicAuthentication(options);
+    app.UseBasicAuthentication(options);
 
-	// other middleware e.g. MVC etc
+    // other middleware e.g. MVC etc
 }
 ```
 
