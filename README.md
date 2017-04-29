@@ -12,7 +12,7 @@ Install using the [ZNetCS.AspNetCore.Authentication.Basic NuGet package](https:/
 PM> Install-Package ZNetCS.AspNetCore.Authentication.Basic
 ```
 
-##Usage 
+## Usage 
 
 When you install the package, it should be added to your `package.json`. Alternatively, you can add it directly by adding:
 
@@ -42,7 +42,7 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
 {   
     var options = new BasicAuthenticationOptions
     {
-    	Realm = "My Application",
+        Realm = "My Application",
         Events = new BasicAuthenticationEvents
         {            
             OnValidatePrincipal = context =>
@@ -71,9 +71,9 @@ public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerF
         }
     };
         
-	app.UseBasicAuthentication(options);
+    app.UseBasicAuthentication(options);
 
-	// other middleware e.g. MVC etc
+    // other middleware e.g. MVC etc
 }
 ```
 
