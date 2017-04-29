@@ -14,15 +14,13 @@ PM> Install-Package ZNetCS.AspNetCore.Authentication.Basic
 
 ## Usage 
 
-When you install the package, it should be added to your `package.json`. Alternatively, you can add it directly by adding:
+When you install the package, it should be added to your `.csproj`. Alternatively, you can add it directly by adding:
 
 
-```json
-{
-  "dependencies" : {
-    "ZNetCS.AspNetCore.Authentication.Basic": "1.0.0"
-  }
-}
+```xml
+<ItemGroup>
+    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="1.0.0" />    
+</ItemGroup>
 ```
 
 In order to use the basic authentication middleware, you must configure the services in the `Configure` call of `Startup`. Because basic 
