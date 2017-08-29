@@ -3,7 +3,7 @@
 //   Copyright (c) Marcin Smółka zNET Computer Solutions. All rights reserved.
 // </copyright>
 // <summary>
-//   Configuration options for <see cref="BasicAuthenticationMiddleware" />.
+//   Configuration options for basic authentication.
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
@@ -13,17 +13,16 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
 
     using System.Diagnostics.CodeAnalysis;
 
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.Extensions.Options;
+    using Microsoft.AspNetCore.Authentication;
 
     using ZNetCS.AspNetCore.Authentication.Basic.Events;
 
     #endregion
 
     /// <summary>
-    /// Configuration options for <see cref="BasicAuthenticationMiddleware"/>.
+    /// Configuration options for basic authentication.
     /// </summary>
-    public class BasicAuthenticationOptions : AuthenticationOptions, IOptions<BasicAuthenticationOptions>
+    public class BasicAuthenticationOptions : AuthenticationSchemeOptions
     {
         #region Constructors and Destructors
 
@@ -32,10 +31,7 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         /// </summary>
         public BasicAuthenticationOptions()
         {
-            this.AuthenticationScheme = BasicAuthenticationDefaults.AuthenticationScheme;
             this.Realm = BasicAuthenticationDefaults.Realm;
-            this.AutomaticAuthenticate = true;
-            this.AutomaticChallenge = true;
             this.Events = new BasicAuthenticationEvents();
         }
 
@@ -44,10 +40,16 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the events that may be assigned to an instance of an object created by the application at startup time.
-        /// The middleware calls methods on the provider which give the application control at final authentication level.
+        /// Gets or sets basic authentication events. The Provider may be assigned to an instance of an object created
+        /// by the application at startup time. The handler calls methods on the provider which give the application
+        /// control at certain points where processing is occurring. If it is not provided a default instance is
+        /// supplied which does nothing when the methods are called.
         /// </summary>
-        public IBasicAuthenticationEvents Events { get; set; }
+        public new BasicAuthenticationEvents Events
+        {
+            get => (BasicAuthenticationEvents)base.Events;
+            set => base.Events = value;
+        }
 
         /// <summary>
         /// Gets or sets the realm.
@@ -69,19 +71,6 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         /// </remarks>
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "OK")]
         public string Realm { get; set; }
-
-        #endregion
-
-        #region Explicit Interface Properties
-
-        #region IOptions<BasicAuthenticationOptions>
-
-        /// <summary>
-        /// Gets the basic authentication options.
-        /// </summary>
-        BasicAuthenticationOptions IOptions<BasicAuthenticationOptions>.Value => this;
-
-        #endregion
 
         #endregion
     }

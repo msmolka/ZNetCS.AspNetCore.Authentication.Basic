@@ -41,7 +41,7 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
         [TestMethod]
         public async Task UnauthorizedBasicRealmTest()
         {
-            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(new BasicAuthenticationOptions())))
+            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(o => { })))
             {
                 using (HttpClient client = server.CreateClient())
                 {
@@ -66,7 +66,7 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
         [TestMethod]
         public async Task UnauthorizedBasicTest()
         {
-            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(new BasicAuthenticationOptions())))
+            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(o => { })))
             {
                 using (HttpClient client = server.CreateClient())
                 {
@@ -85,12 +85,7 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
         [TestMethod]
         public async Task UnauthorizedMyRealmTest()
         {
-            using (var server = new TestServer(
-                WebHostBuilderHelper.CreateBuilder(
-                    new BasicAuthenticationOptions
-                    {
-                        Realm = "My realm"
-                    })))
+            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(o => { o.Realm = "My realm"; })))
             {
                 using (HttpClient client = server.CreateClient())
                 {
@@ -115,7 +110,7 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
         [TestMethod]
         public async Task UnauthorizedValidCredentialsTest()
         {
-            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(new BasicAuthenticationOptions())))
+            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(o => { })))
             {
                 using (HttpClient client = server.CreateClient())
                 {

@@ -14,12 +14,13 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
     using System;
     using System.Linq;
     using System.Text;
+    using System.Text.Encodings.Web;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Http.Features.Authentication;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Microsoft.Net.Http.Headers;
 
     using ZNetCS.AspNetCore.Authentication.Basic.Events;
@@ -41,14 +42,45 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
     /// </remarks>
     public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticationOptions>
     {
+        #region Constants
+
         /// <summary>
         /// The scheme name is "Basic".
         /// </summary>
-        private const string Scheme = "Basic";
+        private const string Basic = "Basic";
+
+        #endregion
+
+        #region Constructors and Destructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BasicAuthenticationHandler"/> class.
+        /// </summary>
+        /// <param name="options">
+        /// The options.
+        /// </param>
+        /// <param name="logger">
+        /// The logger.
+        /// </param>
+        /// <param name="encoder">
+        /// The encoder.
+        /// </param>
+        /// <param name="clock">
+        /// The clock.
+        /// </param>
+        public BasicAuthenticationHandler(IOptionsMonitor<BasicAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock) : base(
+            options,
+            logger,
+            encoder,
+            clock)
+        {
+        }
+
+        #endregion
 
         #region Methods
 
-        /// <inheritdoc />
+        /// <inheritdoc/>
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             // RFC 7230 section 3.2.2
@@ -58,19 +90,19 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
             if ((authorizationHeaderValues == null) || (authorizationHeaderValues.Length == 0))
             {
                 this.Logger.LogDebug("'Authorization' header is not present in the request.");
-                return AuthenticateResult.Skip();
+                return AuthenticateResult.NoResult();
             }
 
-            var basicAuthorizationHeader = authorizationHeaderValues.FirstOrDefault(s => s.StartsWith(Scheme + ' ', StringComparison.OrdinalIgnoreCase));
+            string basicAuthorizationHeader = authorizationHeaderValues.FirstOrDefault(s => s.StartsWith(Basic + ' ', StringComparison.OrdinalIgnoreCase));
 
             // Authorization header is not 'Basic' so there is nothing to do by this middleware
             if (string.IsNullOrEmpty(basicAuthorizationHeader))
             {
                 this.Logger.LogDebug("'Authorization' header is not in 'Basic' scheme in the request.");
-                return AuthenticateResult.Skip();
+                return AuthenticateResult.NoResult();
             }
 
-            var credentials = basicAuthorizationHeader.Replace($"{Scheme} ", string.Empty).Trim();
+            string credentials = basicAuthorizationHeader.Replace($"{Basic} ", string.Empty).Trim();
 
             if (string.IsNullOrEmpty(credentials))
             {
@@ -95,35 +127,21 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
                 return AuthenticateResult.Fail("The credentials delimiter is not present in 'Basic' scheme.");
             }
 
-            var userName = decodedCredentials.Substring(0, delimiterIndex);
-            var password = decodedCredentials.Substring(delimiterIndex + 1);
+            string userName = decodedCredentials.Substring(0, delimiterIndex);
+            string password = decodedCredentials.Substring(delimiterIndex + 1);
 
-            var context = new ValidatePrincipalContext(this.Context, this.Options, userName, password);
+            var context = new ValidatePrincipalContext(this.Context, this.Scheme, this.Options, userName, password);
             return await this.Options.Events.ValidatePrincipal(context);
         }
 
-        /// <inheritdoc />
-        protected override Task HandleSignInAsync(SignInContext context)
-        {
-            // Basic authentication have to be resolved on every request.
-            throw new NotSupportedException();
-        }
-
-        /// <inheritdoc />
-        protected override Task HandleSignOutAsync(SignOutContext context)
-        {
-            // Basic authentication have to be resolved on every request.
-            throw new NotSupportedException();
-        }
-
-        /// <inheritdoc />
-        protected override Task<bool> HandleUnauthorizedAsync(ChallengeContext context)
+        /// <inheritdoc/>
+        protected override Task HandleChallengeAsync(AuthenticationProperties context)
         {
             var realmHeader = new NameValueHeaderValue("realm", $"\"{this.Options.Realm}\"");
             this.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            this.Response.Headers.Append(HeaderNames.WWWAuthenticate, $"{Scheme} {realmHeader}");
+            this.Response.Headers.Append(HeaderNames.WWWAuthenticate, $"{Basic} {realmHeader}");
 
-            return Task.FromResult(true);
+            return Task.CompletedTask;
         }
 
         #endregion

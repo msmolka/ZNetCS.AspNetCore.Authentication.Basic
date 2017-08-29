@@ -19,15 +19,16 @@ When you install the package, it should be added to your `.csproj`. Alternativel
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="1.0.0" />    
+    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="2.0.0" />
 </ItemGroup>
 ```
 
-In order to use the basic authentication middleware, you must configure the services in the `Configure` call of `Startup`. Because basic 
+In order to use the basic authentication middleware, you must configure the services in the `Configure` and `ConfigureServices` call of `Startup`. Because basic 
 authentication is manual process handled on each request, there is need to validate credentials manually (see below).
 
 ```csharp
-using ZNetCS.AspNetCore.Authentication.Basic.DependencyInjection;
+using ZNetCS.AspNetCore.Authentication.Basic;
+using ZNetCS.AspNetCore.Authentication.Basic.Events;
 ```
 
 ```
@@ -35,43 +36,45 @@ using ZNetCS.AspNetCore.Authentication.Basic.DependencyInjection;
 ```
 
 ```csharp
-
 public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 {   
-    var options = new BasicAuthenticationOptions
-    {
-        Realm = "My Application",
-        Events = new BasicAuthenticationEvents
-        {            
-            OnValidatePrincipal = context =>
-            {
-                // here validation comes
-                if ((context.UserName == "userName") && (context.Password == "password"))
-                {
-                    var claims = new List<Claim>
-                    {
-                        new Claim(ClaimTypes.Name, context.UserName, context.Options.ClaimsIssuer)
-                    };
 
-                    var ticket = new AuthenticationTicket(
-                        new ClaimsPrincipal(
-                            new ClaimsIdentity(claims, context.Options.AuthenticationScheme)),
-                        new AuthenticationProperties(),
-                        context.Options.AuthenticationScheme);
-                    
-                    // return success result with ticket
-                    return Task.FromResult(AuthenticateResult.Success(ticket));
-                }
-
-                // return failed result
-                return Task.FromResult(AuthenticateResult.Fail("Authentication failed."));
-            }
-        }
-    };
-        
-    app.UseBasicAuthentication(options);
+    // default authentication initilaization
+    app.UseAuthentication();
 
     // other middleware e.g. MVC etc
+}
+
+public void ConfigureServices(IServiceCollection services)
+{
+    services
+        .AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
+        .AddBasicAuthentication(
+            options =>
+            {
+                options.Realm = "My Application";
+                options.Events = new BasicAuthenticationEvents
+                {
+                    OnValidatePrincipal = context =>
+                    {
+                        if ((context.UserName == "userName") && (context.Password == "password"))
+                        {
+                            var claims = new List<Claim>
+                            {
+                                new Claim(ClaimTypes.Name, context.UserName, context.Options.ClaimsIssuer)
+                            };
+
+                            var ticket = new AuthenticationTicket(
+                                new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme)),
+                                new Microsoft.AspNetCore.Authentication.AuthenticationProperties(),
+                                BasicAuthenticationDefaults.AuthenticationScheme);
+
+                            return Task.FromResult(AuthenticateResult.Success(ticket));
+                        }
+
+                        return Task.FromResult(AuthenticateResult.Fail("Authentication failed."));
+                };
+            });
 }
 ```
 
