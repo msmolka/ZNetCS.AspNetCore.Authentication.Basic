@@ -20,7 +20,6 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
     using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
-    using Microsoft.AspNetCore.Http.Authentication;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
@@ -94,7 +93,7 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
 
                             var ticket = new AuthenticationTicket(
                                 new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme)),
-                                new Microsoft.AspNetCore.Authentication.AuthenticationProperties(),
+                                new AuthenticationProperties(),
                                 BasicAuthenticationDefaults.AuthenticationScheme);
 
                             return Task.FromResult(AuthenticateResult.Success(ticket));
