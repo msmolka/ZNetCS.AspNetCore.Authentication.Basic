@@ -21,8 +21,6 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
     using Microsoft.Net.Http.Headers;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-    using ZNetCS.AspNetCore.Authentication.Basic;
-
     using NameValueHeaderValue = Microsoft.Net.Http.Headers.NameValueHeaderValue;
 
     #endregion

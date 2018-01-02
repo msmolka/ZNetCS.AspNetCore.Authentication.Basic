@@ -73,6 +73,7 @@ public void ConfigureServices(IServiceCollection services)
                         }
 
                         return Task.FromResult(AuthenticateResult.Fail("Authentication failed."));
+                    }
                 };
             });
 }
