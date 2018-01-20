@@ -14,8 +14,6 @@ namespace ZNetCS.AspNetCore.Authentication.Basic.Events
     using System;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Authentication;
-
     #endregion
 
     /// <summary>
@@ -28,14 +26,11 @@ namespace ZNetCS.AspNetCore.Authentication.Basic.Events
         /// <summary>
         /// Gets or sets a delegate assigned to this property will be invoked when the related method is called.
         /// </summary>
-        public Func<ValidatePrincipalContext, Task<AuthenticateResult>> OnValidatePrincipal { get; set; } =
-            context => Task.FromResult(AuthenticateResult.Fail("Incorrect credentials."));
+        public Func<ValidatePrincipalContext, Task> OnValidatePrincipal { get; set; } = context => Task.CompletedTask;
 
         #endregion
 
-        #region Implemented Interfaces
-
-        #region IBasicAuthenticationEvents
+        #region Public Methods
 
         /// <summary>
         /// Called each time a request principal has been validated by the middleware. By implementing this method the
@@ -47,9 +42,7 @@ namespace ZNetCS.AspNetCore.Authentication.Basic.Events
         /// <returns>
         /// A <see cref="Task"/> representing the completed operation.
         /// </returns>
-        public virtual Task<AuthenticateResult> ValidatePrincipal(ValidatePrincipalContext context) => this.OnValidatePrincipal(context);
-
-        #endregion
+        public virtual Task ValidatePrincipalAsync(ValidatePrincipalContext context) => this.OnValidatePrincipal(context);
 
         #endregion
     }

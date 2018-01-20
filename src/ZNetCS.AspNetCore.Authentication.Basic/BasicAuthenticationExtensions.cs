@@ -31,9 +31,7 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         /// The authentication builder.
         /// </param>
         public static AuthenticationBuilder AddBasicAuthentication(this AuthenticationBuilder builder)
-        {
-            return builder.AddBasicAuthentication(BasicAuthenticationDefaults.AuthenticationScheme);
-        }
+            => builder.AddBasicAuthentication(BasicAuthenticationDefaults.AuthenticationScheme);
 
         /// <summary>
         /// Adds basic authentication.
@@ -45,9 +43,7 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         /// The authentication scheme.
         /// </param>
         public static AuthenticationBuilder AddBasicAuthentication(this AuthenticationBuilder builder, string authenticationScheme)
-        {
-            return builder.AddBasicAuthentication(authenticationScheme, null);
-        }
+            => builder.AddBasicAuthentication(authenticationScheme, null);
 
         /// <summary>
         /// Adds basic authentication.
@@ -59,9 +55,7 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         /// The configure options.
         /// </param>
         public static AuthenticationBuilder AddBasicAuthentication(this AuthenticationBuilder builder, Action<BasicAuthenticationOptions> configureOptions)
-        {
-            return builder.AddBasicAuthentication(BasicAuthenticationDefaults.AuthenticationScheme, configureOptions);
-        }
+            => builder.AddBasicAuthentication(BasicAuthenticationDefaults.AuthenticationScheme, configureOptions);
 
         /// <summary>
         /// Adds basic authentication.
@@ -79,9 +73,7 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
             this AuthenticationBuilder builder,
             string authenticationScheme,
             Action<BasicAuthenticationOptions> configureOptions)
-        {
-            return builder.AddScheme<BasicAuthenticationOptions, BasicAuthenticationHandler>(authenticationScheme, configureOptions);
-        }
+            => builder.AddScheme<BasicAuthenticationOptions, BasicAuthenticationHandler>(authenticationScheme, configureOptions);
 
         #endregion
     }

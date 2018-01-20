@@ -78,7 +78,25 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
 
         #endregion
 
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets the events. The handler calls methods on the events which give the application control
+        /// at certain points where processing is occurring. If it is not provided a default instance
+        /// is supplied which does nothing when the methods are called.
+        /// </summary>
+        protected new BasicAuthenticationEvents Events
+        {
+            get => (BasicAuthenticationEvents)base.Events;
+            set => base.Events = value;
+        }
+
+        #endregion
+
         #region Methods
+
+        /// <inheritdoc/>
+        protected override Task<object> CreateEventsAsync() => Task.FromResult<object>(new BasicAuthenticationEvents());
 
         /// <inheritdoc/>
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
@@ -131,7 +149,14 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
             string password = decodedCredentials.Substring(delimiterIndex + 1);
 
             var context = new ValidatePrincipalContext(this.Context, this.Scheme, this.Options, userName, password);
-            return await this.Options.Events.ValidatePrincipal(context);
+            await this.Events.ValidatePrincipalAsync(context);
+
+            if (context.Principal == null)
+            {
+                return AuthenticateResult.Fail(context.AuthenticationFailMessage);
+            }
+
+            return AuthenticateResult.Success(new AuthenticationTicket(context.Principal, context.Properties, this.Scheme.Name));
         }
 
         /// <inheritdoc/>

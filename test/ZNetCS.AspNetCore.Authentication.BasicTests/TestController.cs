@@ -29,10 +29,7 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
         /// The test get.
         /// </summary>
         [HttpGet]
-        public IActionResult Get()
-        {
-            return new OkResult();
-        }
+        public IActionResult Get() => new OkResult();
 
         #endregion
     }

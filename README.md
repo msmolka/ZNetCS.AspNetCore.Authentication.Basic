@@ -12,6 +12,10 @@ Install using the [ZNetCS.AspNetCore.Authentication.Basic NuGet package](https:/
 PM> Install-Package ZNetCS.AspNetCore.Authentication.Basic
 ```
 
+# Important change in 3.0.0 
+The `OnValidatePrincipal` will not return `AuthenticationResult` any more. To simplify process can simply return `Task.CompletedTask`.
+Also to make success authentication `Principal` have to be assigned to `ValidatePrincipalContext` context.
+
 ## Usage 
 
 When you install the package, it should be added to your `.csproj`. Alternatively, you can add it directly by adding:
@@ -19,7 +23,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="2.0.0" />
+    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="3.0.0" />
 </ItemGroup>
 ```
 
@@ -64,15 +68,14 @@ public void ConfigureServices(IServiceCollection services)
                                 new Claim(ClaimTypes.Name, context.UserName, context.Options.ClaimsIssuer)
                             };
 
-                            var ticket = new AuthenticationTicket(
-                                new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme)),
-                                new Microsoft.AspNetCore.Authentication.AuthenticationProperties(),
-                                BasicAuthenticationDefaults.AuthenticationScheme);
+                            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme));
+                            context.Principal = principal;
 
-                            return Task.FromResult(AuthenticateResult.Success(ticket));
+                            // optional with following default.
+                            // context.AuthenticationFailMessage = "Authentication failed.";
                         }
 
-                        return Task.FromResult(AuthenticateResult.Fail("Authentication failed."));
+                        return Task.CompletedTask;
                     }
                 };
             });

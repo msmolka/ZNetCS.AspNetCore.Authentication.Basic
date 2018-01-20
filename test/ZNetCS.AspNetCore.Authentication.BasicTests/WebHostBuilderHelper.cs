@@ -17,7 +17,6 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
     using System.Security.Claims;
     using System.Threading.Tasks;
 
-    using Microsoft.AspNetCore.Authentication;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.DependencyInjection;
@@ -41,18 +40,43 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
         /// <param name="configureOptions">
         /// The configure options action.
         /// </param>
-        public static IWebHostBuilder CreateBuilder(Action<BasicAuthenticationOptions> configureOptions = null)
+        public static IWebHostBuilder CreateBuilder(Action<BasicAuthenticationOptions> configureOptions)
         {
-            if (configureOptions == null)
-            {
-                configureOptions = ConfigureOptions();
-            }
-
             IWebHostBuilder builder = new WebHostBuilder()
                 .ConfigureServices(
                     s =>
                     {
                         s.AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme).AddBasicAuthentication(configureOptions);
+                        s.AddMvc();
+                    })
+                .Configure(
+                    app =>
+                    {
+                        app.UseAuthentication();
+                        app.UseMvc();
+                    })
+                .ConfigureLogging(
+                    (context, logging) =>
+                    {
+                        logging
+                            .AddFilter("Default", LogLevel.Debug)
+                            .AddDebug();
+                    });
+
+            return builder;
+        }
+
+        /// <summary>
+        /// Creates code builder.
+        /// </summary>
+        public static IWebHostBuilder CreateBuilder()
+        {
+            IWebHostBuilder builder = new WebHostBuilder()
+                .ConfigureServices(
+                    s =>
+                    {
+                        s.AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme).AddBasicAuthentication(options => options.EventsType = typeof(BasicAuthenticationEventsTest));
+                        s.AddSingleton<BasicAuthenticationEventsTest>();
                         s.AddMvc();
                     })
                 .Configure(
@@ -91,15 +115,12 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
                                 new Claim(ClaimTypes.Name, context.UserName, context.Options.ClaimsIssuer)
                             };
 
-                            var ticket = new AuthenticationTicket(
-                                new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme)),
-                                new AuthenticationProperties(),
-                                BasicAuthenticationDefaults.AuthenticationScheme);
-
-                            return Task.FromResult(AuthenticateResult.Success(ticket));
+                            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme));
+                            context.Principal = principal;
+                            context.AuthenticationFailMessage = null;
                         }
 
-                        return Task.FromResult(AuthenticateResult.Fail("Authentication failed."));
+                        return Task.CompletedTask;
                     }
                 };
             };

@@ -56,6 +56,11 @@ namespace ZNetCS.AspNetCore.Authentication.Basic.Events
         #region Public Properties
 
         /// <summary>
+        /// Gets or sets the authentication fail message.
+        /// </summary>
+        public string AuthenticationFailMessage { get; set; } = "Authentication failed.";
+
+        /// <summary>
         /// Gets the password.
         /// </summary>
         public string Password { get; }

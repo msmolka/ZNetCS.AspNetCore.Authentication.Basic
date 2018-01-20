@@ -34,10 +34,79 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
         #region Public Methods
 
         /// <summary>
+        /// The authorized valid credentials.
+        /// </summary>
+        [TestMethod]
+        public async Task AuthorizedCredentialsTest()
+        {
+            using (var server = new TestServer(WebHostBuilderHelper.CreateStartupBuilder()))
+            {
+                using (HttpClient client = server.CreateClient())
+                {
+                    // Arrange
+                    client.DefaultRequestHeaders.Add(HeaderNames.Authorization, AuthorizationHeaderHelper.GetBasic());
+
+                    // Act
+                    HttpResponseMessage response = await client.GetAsync("api/test");
+
+                    // Assert
+                    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "StatusCode != OK");
+                }
+            }
+        }
+
+        /// <summary>
+        /// The authorized valid credentials.
+        /// </summary>
+        [TestMethod]
+        public async Task AuthorizedCredentialsTestWithDi()
+        {
+            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder()))
+            {
+                using (HttpClient client = server.CreateClient())
+                {
+                    // Arrange
+                    client.DefaultRequestHeaders.Add(HeaderNames.Authorization, AuthorizationHeaderHelper.GetBasic());
+
+                    // Act
+                    HttpResponseMessage response = await client.GetAsync("api/test");
+
+                    // Assert
+                    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "StatusCode != OK");
+                }
+            }
+        }
+
+        /// <summary>
         /// The unauthorized basic realm.
         /// </summary>
         [TestMethod]
-        public async Task UnauthorizedBasicRealmTest()
+        public async Task UnauthorizedBasicRealmTestWithDi()
+        {
+            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder()))
+            {
+                using (HttpClient client = server.CreateClient())
+                {
+                    // Act
+                    HttpResponseMessage response = await client.GetAsync("api/test");
+
+                    // Assert
+                    AuthenticationHeaderValue wwwAuth = response.Headers.WwwAuthenticate.Single();
+                    NameValueHeaderValue nvh = NameValueHeaderValue.Parse(wwwAuth.Parameter);
+
+                    Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode, "StatusCode != Unauthorized");
+                    Assert.AreEqual("Basic", wwwAuth.Scheme, "Scheme != Basic");
+                    Assert.AreEqual("realm", nvh.Name, "!realm");
+                    Assert.AreEqual("\"Basic Realm\"", nvh.Value, "!basic realm");
+                }
+            }
+        }
+
+        /// <summary>
+        /// The unauthorized basic realm.
+        /// </summary>
+        [TestMethod]
+        public async Task UnauthorizedBasicRealmTestWithOptions()
         {
             using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(o => { })))
             {
@@ -62,9 +131,9 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
         /// The unauthorized.
         /// </summary>
         [TestMethod]
-        public async Task UnauthorizedBasicTest()
+        public async Task UnauthorizedBasicTestWithDi()
         {
-            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(o => { })))
+            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder()))
             {
                 using (HttpClient client = server.CreateClient())
                 {
@@ -78,54 +147,20 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
         }
 
         /// <summary>
-        /// The unauthorized basic realm.
+        /// The unauthorized.
         /// </summary>
         [TestMethod]
-        public async Task UnauthorizedMyRealmTest()
-        {
-            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(o => { o.Realm = "My realm"; })))
-            {
-                using (HttpClient client = server.CreateClient())
-                {
-                    // Act
-                    HttpResponseMessage response = await client.GetAsync("api/test");
-
-                    // Assert
-                    AuthenticationHeaderValue wwwAuth = response.Headers.WwwAuthenticate.Single();
-                    NameValueHeaderValue nvh = NameValueHeaderValue.Parse(wwwAuth.Parameter);
-
-                    Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode, "StatusCode != Unauthorized");
-                    Assert.AreEqual("Basic", wwwAuth.Scheme, "Scheme != Basic");
-                    Assert.AreEqual("realm", nvh.Name, "!realm");
-                    Assert.AreEqual("\"My realm\"", nvh.Value, "!My realm");
-                }
-            }
-        }
-
-        /// <summary>
-        /// The unauthorized vapid credentials but not setup.
-        /// </summary>
-        [TestMethod]
-        public async Task UnauthorizedValidCredentialsTest()
+        public async Task UnauthorizedBasicTestWithOptions()
         {
             using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(o => { })))
             {
                 using (HttpClient client = server.CreateClient())
                 {
-                    // Arrange
-                    client.DefaultRequestHeaders.Add(HeaderNames.Authorization, AuthorizationHeaderHelper.GetBasic());
-
                     // Act
                     HttpResponseMessage response = await client.GetAsync("api/test");
 
                     // Assert
-                    AuthenticationHeaderValue wwwAuth = response.Headers.WwwAuthenticate.Single();
-                    NameValueHeaderValue nvh = NameValueHeaderValue.Parse(wwwAuth.Parameter);
-
                     Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode, "StatusCode != Unauthorized");
-                    Assert.AreEqual("Basic", wwwAuth.Scheme, "Scheme != Basic");
-                    Assert.AreEqual("realm", nvh.Name, "!realm");
-                    Assert.AreEqual("\"Basic Realm\"", nvh.Value, "!basic realm");
                 }
             }
         }
@@ -159,6 +194,59 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
         }
 
         /// <summary>
+        /// The unauthorized basic realm.
+        /// </summary>
+        [TestMethod]
+        public async Task UnauthorizedMyRealmTest()
+        {
+            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(o => { o.Realm = "My realm"; })))
+            {
+                using (HttpClient client = server.CreateClient())
+                {
+                    // Act
+                    HttpResponseMessage response = await client.GetAsync("api/test");
+
+                    // Assert
+                    AuthenticationHeaderValue wwwAuth = response.Headers.WwwAuthenticate.Single();
+                    NameValueHeaderValue nvh = NameValueHeaderValue.Parse(wwwAuth.Parameter);
+
+                    Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode, "StatusCode != Unauthorized");
+                    Assert.AreEqual("Basic", wwwAuth.Scheme, "Scheme != Basic");
+                    Assert.AreEqual("realm", nvh.Name, "!realm");
+                    Assert.AreEqual("\"My realm\"", nvh.Value, "!My realm");
+                }
+            }
+        }
+
+        /// <summary>
+        /// The unauthorized vapid credentials but not setup.
+        /// </summary>
+        [TestMethod]
+        public async Task UnauthorizedValidCredentialsTestWithOptions()
+        {
+            using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(o => { })))
+            {
+                using (HttpClient client = server.CreateClient())
+                {
+                    // Arrange
+                    client.DefaultRequestHeaders.Add(HeaderNames.Authorization, AuthorizationHeaderHelper.GetBasic());
+
+                    // Act
+                    HttpResponseMessage response = await client.GetAsync("api/test");
+
+                    // Assert
+                    AuthenticationHeaderValue wwwAuth = response.Headers.WwwAuthenticate.Single();
+                    NameValueHeaderValue nvh = NameValueHeaderValue.Parse(wwwAuth.Parameter);
+
+                    Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode, "StatusCode != Unauthorized");
+                    Assert.AreEqual("Basic", wwwAuth.Scheme, "Scheme != Basic");
+                    Assert.AreEqual("realm", nvh.Name, "!realm");
+                    Assert.AreEqual("\"Basic Realm\"", nvh.Value, "!basic realm");
+                }
+            }
+        }
+
+        /// <summary>
         /// The unauthorized invalid credentials realm.
         /// </summary>
         [TestMethod]
@@ -182,28 +270,6 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
                     Assert.AreEqual("Basic", wwwAuth.Scheme, "Scheme != Basic");
                     Assert.AreEqual("realm", nvh.Name, "!realm");
                     Assert.AreEqual("\"My realm\"", nvh.Value, "!My realm");
-                }
-            }
-        }
-
-        /// <summary>
-        /// The authorized valid credentials.
-        /// </summary>
-        [TestMethod]
-        public async Task AuthorizedCredentialsTest()
-        {
-            using (var server = new TestServer(WebHostBuilderHelper.CreateStartupBuilder()))
-            {
-                using (HttpClient client = server.CreateClient())
-                {
-                    // Arrange
-                    client.DefaultRequestHeaders.Add(HeaderNames.Authorization, AuthorizationHeaderHelper.GetBasic());
-
-                    // Act
-                    HttpResponseMessage response = await client.GetAsync("api/test");
-
-                    // Assert
-                    Assert.AreEqual(HttpStatusCode.OK, response.StatusCode, "StatusCode != OK");
                 }
             }
         }
