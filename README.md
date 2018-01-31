@@ -70,9 +70,11 @@ public void ConfigureServices(IServiceCollection services)
 
                             var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme));
                             context.Principal = principal;
-
+                        }
+                        else 
+                        {
                             // optional with following default.
-                            // context.AuthenticationFailMessage = "Authentication failed.";
+                            // context.AuthenticationFailMessage = "Authentication failed."; 
                         }
 
                         return Task.CompletedTask;
