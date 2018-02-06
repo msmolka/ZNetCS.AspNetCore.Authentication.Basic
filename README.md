@@ -83,5 +83,50 @@ public void ConfigureServices(IServiceCollection services)
             });
 }
 ```
+or using dependency injection:
 
+```c#
+public class AuthenticationEvents : BasicAuthenticationEvents
+{
+    #region Public Methods
 
+    /// <inheritdoc/>
+    public override Task ValidatePrincipalAsync(ValidatePrincipalContext context)
+    {
+        if ((context.UserName == "userName") && (context.Password == "password"))
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, context.UserName, context.Options.ClaimsIssuer)
+            };
+
+            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme));
+            context.Principal = principal;
+            context.AuthenticationFailMessage = null;
+        }
+
+        return Task.CompletedTask;
+    }
+
+    #endregion
+}
+
+```
+
+and then registration
+
+```c#
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddScoped<AuthenticationEvents>();
+
+    services
+        .AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
+        .AddBasicAuthentication(
+            options =>
+            {
+                options.Realm = "My Application";
+                options.EventsType = typeof(AuthenticationEvents)
+            });
+}
+```
