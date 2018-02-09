@@ -102,7 +102,6 @@ public class AuthenticationEvents : BasicAuthenticationEvents
 
             var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme));
             context.Principal = principal;
-            context.AuthenticationFailMessage = null;
         }
 
         return Task.CompletedTask;
