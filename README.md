@@ -43,7 +43,7 @@ using ZNetCS.AspNetCore.Authentication.Basic.Events;
 public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 {   
 
-    // default authentication initilaization
+    // default authentication initialization
     app.UseAuthentication();
 
     // other middleware e.g. MVC etc
