@@ -24,6 +24,9 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
     /// </summary>
     public class BasicAuthenticationOptions : AuthenticationSchemeOptions
     {
+        public const string DefaultAjaxRequestHeaderName = "X-Requested-With";
+        public const string DefaultAjaxRequestHeaderValue = "XMLHttpRequest";
+
         #region Constructors and Destructors
 
         /// <summary>
@@ -33,6 +36,8 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         {
             this.Realm = BasicAuthenticationDefaults.Realm;
             this.Events = new BasicAuthenticationEvents();
+            AjaxRequestHeaderName = DefaultAjaxRequestHeaderName;
+            AjaxRequestHeaderValue = DefaultAjaxRequestHeaderValue;
         }
 
         #endregion
@@ -72,6 +77,14 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "OK")]
         public string Realm { get; set; }
 
+        /// <summary>
+        /// If enabled, it suppress sending the WWWAuthenticate response header when a request has the header (X-Requested-With,XMLHttpRequest)
+        /// </summary>
+        public bool SupressResponseHeaderWWWAuthenticateForAjaxRequests { get; set; }
+
+        public string AjaxRequestHeaderName { get; set; }
+
+        public string AjaxRequestHeaderValue { get; set; }
         #endregion
     }
 }

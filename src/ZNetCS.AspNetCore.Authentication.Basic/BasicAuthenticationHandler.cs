@@ -165,11 +165,14 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
             var realmHeader = new NameValueHeaderValue("realm", $"\"{this.Options.Realm}\"");
             this.Response.StatusCode = StatusCodes.Status401Unauthorized;
 
-            if (this.Request.Headers.TryGetValue("X-Requested-With", out var value))
+            if (this.Options.SupressResponseHeaderWWWAuthenticateForAjaxRequests)
             {
-                if (value == "XMLHttpRequest")
+                if (this.Request.Headers.TryGetValue(this.Options.AjaxRequestHeaderName, out var value))
                 {
-                    return Task.CompletedTask;
+                    if (value == this.Options.AjaxRequestHeaderValue)
+                    {
+                        return Task.CompletedTask;
+                    }
                 }
             }
 
