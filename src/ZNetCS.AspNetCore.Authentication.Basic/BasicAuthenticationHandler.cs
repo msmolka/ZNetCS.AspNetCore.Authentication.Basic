@@ -164,8 +164,19 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         {
             var realmHeader = new NameValueHeaderValue("realm", $"\"{this.Options.Realm}\"");
             this.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            this.Response.Headers.Append(HeaderNames.WWWAuthenticate, $"{Basic} {realmHeader}");
 
+            if (this.Options.SupressResponseHeaderWWWAuthenticateForAjaxRequests)
+            {
+                if (this.Request.Headers.TryGetValue(this.Options.AjaxRequestHeaderName, out var value))
+                {
+                    if (value == this.Options.AjaxRequestHeaderValue)
+                    {
+                        return Task.CompletedTask;
+                    }
+                }
+            }
+
+            this.Response.Headers.Append(HeaderNames.WWWAuthenticate, $"{Basic} {realmHeader}");
             return Task.CompletedTask;
         }
 

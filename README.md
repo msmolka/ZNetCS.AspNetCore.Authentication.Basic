@@ -129,3 +129,21 @@ public void ConfigureServices(IServiceCollection services)
             });
 }
 ```
+
+you can suppress the response WWW-Authenticate header (avoiding the browser to show a popup) for ajax requests by using a switch
+
+```c#
+public void ConfigureServices(IServiceCollection services)
+{
+    services.AddScoped<AuthenticationEvents>();
+
+    services
+        .AddAuthentication(BasicAuthenticationDefaults.AuthenticationScheme)
+        .AddBasicAuthentication(
+            options =>
+            {
+                options.Realm = "My Application";
+				options.SupressResponseHeaderWWWAuthenticateForAjaxRequests = true;
+            });
+}
+```
