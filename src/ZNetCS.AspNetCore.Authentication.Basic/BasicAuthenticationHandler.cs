@@ -21,6 +21,7 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
     using Microsoft.AspNetCore.Http;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
+    using Microsoft.Extensions.Primitives;
     using Microsoft.Net.Http.Headers;
 
     using ZNetCS.AspNetCore.Authentication.Basic.Events;
@@ -162,20 +163,20 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         /// <inheritdoc/>
         protected override Task HandleChallengeAsync(AuthenticationProperties context)
         {
-            var realmHeader = new NameValueHeaderValue("realm", $"\"{this.Options.Realm}\"");
             this.Response.StatusCode = StatusCodes.Status401Unauthorized;
 
-            if (this.Options.SupressResponseHeaderWWWAuthenticateForAjaxRequests)
+            if ((this.Options.AjaxRequestOptions?.SuppressWwwAuthenticateHeader == true)
+                && this.Request.Headers.TryGetValue(
+                    this.Options.AjaxRequestOptions?.HeaderName ?? BasicAuthenticationDefaults.AjaxRequestHeaderName,
+                    out StringValues value))
             {
-                if (this.Request.Headers.TryGetValue(this.Options.AjaxRequestHeaderName, out var value))
+                if (value == (this.Options.AjaxRequestOptions?.HeaderValue ?? BasicAuthenticationDefaults.AjaxRequestHeaderValue))
                 {
-                    if (value == this.Options.AjaxRequestHeaderValue)
-                    {
-                        return Task.CompletedTask;
-                    }
+                    return Task.CompletedTask;
                 }
             }
 
+            var realmHeader = new NameValueHeaderValue("realm", $"\"{this.Options.Realm}\"");
             this.Response.Headers.Append(HeaderNames.WWWAuthenticate, $"{Basic} {realmHeader}");
             return Task.CompletedTask;
         }

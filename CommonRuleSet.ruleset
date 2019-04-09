@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Common Rules" Description="These rules focus on the most critical problems in your code, including potential security holes, application crashes, and other important logic and design errors. You should include this rule set in any custom rule set you create for your projects." ToolsVersion="14.0">
+<RuleSet Name="Common Rules" Description="These rules focus on the most critical problems in your code, including potential security holes, application crashes, and other important logic and design errors. You should include this rule set in any custom rule set you create for your projects." ToolsVersion="16.0">
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
     <Rule Id="CA1001" Action="Warning" />
     <Rule Id="CA1009" Action="Warning" />
@@ -22,6 +22,7 @@
     <Rule Id="CA1900" Action="Warning" />
     <Rule Id="CA1901" Action="Warning" />
     <Rule Id="CA2002" Action="Warning" />
+    <Rule Id="CA2006" Action="Warning" />
     <Rule Id="CA2100" Action="Warning" />
     <Rule Id="CA2101" Action="Warning" />
     <Rule Id="CA2108" Action="Warning" />
@@ -66,7 +67,10 @@
   </Rules>
   <Rules AnalyzerId="Microsoft.CodeAnalysis.CSharp.Features" RuleNamespace="Microsoft.CodeAnalysis.CSharp.Features">
     <Rule Id="IDE0001" Action="None" />
-	<Rule Id="IDE0003" Action="None" />
+    <Rule Id="IDE0003" Action="None" />
+  </Rules>
+  <Rules AnalyzerId="Microsoft.CodeQuality.Analyzers" RuleNamespace="Microsoft.CodeQuality.Analyzers">
+    <Rule Id="CA2007" Action="None" />
   </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
     <Rule Id="SA1117" Action="None" />
@@ -74,7 +78,7 @@
     <Rule Id="SA1124" Action="None" />
     <Rule Id="SA1127" Action="None" />
     <Rule Id="SA1128" Action="None" />
-	<Rule Id="SA1413" Action="None" />
+    <Rule Id="SA1413" Action="None" />
     <Rule Id="SA1615" Action="None" />
     <Rule Id="SA1616" Action="None" />
     <Rule Id="SA1649" Action="None" />

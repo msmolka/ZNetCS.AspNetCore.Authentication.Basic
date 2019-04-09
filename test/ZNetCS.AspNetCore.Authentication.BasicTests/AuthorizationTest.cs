@@ -275,7 +275,7 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
         }
 
         /// <summary>
-        /// The unauthorized basic realm via ajax
+        /// The unauthorized basic realm via ajax.
         /// </summary>
         [TestMethod]
         public async Task UnauthorizedMyRealmTestAjaxRequestSuppressed()
@@ -283,12 +283,12 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
             using (var server = new TestServer(WebHostBuilderHelper.CreateBuilder(o =>
             {
                 o.Realm = "My realm";
-                o.SupressResponseHeaderWWWAuthenticateForAjaxRequests = true;
+                o.AjaxRequestOptions.SuppressWwwAuthenticateHeader = true;
             })))
             {
                 using (HttpClient client = server.CreateClient())
                 {
-                    client.DefaultRequestHeaders.Add(Basic.BasicAuthenticationOptions.DefaultAjaxRequestHeaderName, Basic.BasicAuthenticationOptions.DefaultAjaxRequestHeaderValue);
+                    client.DefaultRequestHeaders.Add(Basic.BasicAuthenticationDefaults.AjaxRequestHeaderName, Basic.BasicAuthenticationDefaults.AjaxRequestHeaderValue);
 
                     // Act
                     HttpResponseMessage response = await client.GetAsync("api/test");

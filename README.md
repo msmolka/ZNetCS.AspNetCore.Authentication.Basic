@@ -23,7 +23,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="3.0.0" />
+    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="3.0.1" />
 </ItemGroup>
 ```
 
@@ -130,7 +130,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 
-you can suppress the response WWW-Authenticate header (avoiding the browser to show a popup) for ajax requests by using a switch
+As from version 3.0.1 You can suppress the response WWW-Authenticate header (avoiding the browser to show a popup) for ajax requests by using a switch.
 
 ```c#
 public void ConfigureServices(IServiceCollection services)
@@ -143,7 +143,7 @@ public void ConfigureServices(IServiceCollection services)
             options =>
             {
                 options.Realm = "My Application";
-				options.SupressResponseHeaderWWWAuthenticateForAjaxRequests = true;
+                options.AjaxRequestOptions.SuppressWwwAuthenticateHeader = true;
             });
 }
 ```

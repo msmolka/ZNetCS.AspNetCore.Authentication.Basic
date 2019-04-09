@@ -7,13 +7,16 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-namespace ZNetCS.AspNetCore.Authentication.Basic
+// ReSharper disable once CheckNamespace
+namespace Microsoft.Extensions.DependencyInjection
 {
     #region Usings
 
     using System;
 
     using Microsoft.AspNetCore.Authentication;
+
+    using ZNetCS.AspNetCore.Authentication.Basic;
 
     #endregion
 
