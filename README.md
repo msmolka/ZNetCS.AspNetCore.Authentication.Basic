@@ -68,7 +68,7 @@ public void ConfigureServices(IServiceCollection services)
                                 new Claim(ClaimTypes.Name, context.UserName, context.Options.ClaimsIssuer)
                             };
 
-                            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme));
+                            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, context.Scheme.Name));
                             context.Principal = principal;
                         }
                         else 
@@ -100,7 +100,7 @@ public class AuthenticationEvents : BasicAuthenticationEvents
                 new Claim(ClaimTypes.Name, context.UserName, context.Options.ClaimsIssuer)
             };
 
-            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, BasicAuthenticationDefaults.AuthenticationScheme));
+            var principal = new ClaimsPrincipal(new ClaimsIdentity(claims, context.Scheme.Name));
             context.Principal = principal;
         }
 
