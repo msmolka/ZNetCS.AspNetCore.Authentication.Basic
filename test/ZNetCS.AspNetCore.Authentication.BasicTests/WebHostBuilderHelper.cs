@@ -52,8 +52,16 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
                 .Configure(
                     app =>
                     {
+#if NETCOREAPP3_0
+                        app.UseRouting();
+                        app.UseAuthentication();
+                        app.UseAuthorization();
+                        app.UseEndpoints(o => o.MapControllers());
+#else
+
                         app.UseAuthentication();
                         app.UseMvc();
+#endif
                     })
                 .ConfigureLogging(
                     (context, logging) =>
@@ -82,8 +90,16 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
                 .Configure(
                     app =>
                     {
+#if NETCOREAPP3_0
+                        app.UseRouting();
+                        app.UseAuthentication();
+                        app.UseAuthorization();
+                        app.UseEndpoints(o => o.MapControllers());
+#else
+
                         app.UseAuthentication();
                         app.UseMvc();
+#endif
                     })
                 .ConfigureLogging(
                     (context, logging) =>

@@ -76,7 +76,14 @@ namespace Microsoft.Extensions.DependencyInjection
             this AuthenticationBuilder builder,
             string authenticationScheme,
             Action<BasicAuthenticationOptions> configureOptions)
-            => builder.AddScheme<BasicAuthenticationOptions, BasicAuthenticationHandler>(authenticationScheme, configureOptions);
+        {
+            if (builder == null)
+            {
+                throw new ArgumentNullException(nameof(builder));
+            }
+
+            return builder.AddScheme<BasicAuthenticationOptions, BasicAuthenticationHandler>(authenticationScheme, configureOptions);
+        }
 
         #endregion
     }

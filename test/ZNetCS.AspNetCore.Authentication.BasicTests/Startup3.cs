@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Startup.cs" company="Marcin Smółka zNET Computer Solutions">
+// <copyright file="Startup3.cs" company="Marcin Smółka zNET Computer Solutions">
 //   Copyright (c) Marcin Smółka zNET Computer Solutions. All rights reserved.
 // </copyright>
 // <summary>
@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-#if !NETCOREAPP3_0
+#if NETCOREAPP3_0
 namespace ZNetCS.AspNetCore.Authentication.BasicTests
 {
     #region Usings
@@ -33,8 +33,11 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
         /// </param>
         public void Configure(IApplicationBuilder app)
         {
+            app.UseRouting();
+
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseAuthorization();
+            app.UseEndpoints(o => o.MapControllers());
         }
 
         /// <summary>

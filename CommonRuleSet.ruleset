@@ -84,4 +84,7 @@
     <Rule Id="SA1649" Action="None" />
     <Rule Id="SA1652" Action="None" />
   </Rules>
+  <Rules AnalyzerId="Microsoft.NetCore.Analyzers" RuleNamespace="Microsoft.NetCore.Analyzers">
+    <Rule Id="CA1303" Action="None" />
+  </Rules>
 </RuleSet>

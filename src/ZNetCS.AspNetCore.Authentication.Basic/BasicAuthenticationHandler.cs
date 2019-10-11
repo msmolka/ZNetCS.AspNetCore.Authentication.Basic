@@ -100,6 +100,8 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         protected override Task<object> CreateEventsAsync() => Task.FromResult<object>(new BasicAuthenticationEvents());
 
         /// <inheritdoc/>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Just for validation, the quickest")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1307:Specify StringComparison", Justification = "Invalid overload; known bug in code analysis")]
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             // RFC 7230 section 3.2.2
@@ -112,7 +114,7 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
                 return AuthenticateResult.NoResult();
             }
 
-            string basicAuthorizationHeader = authorizationHeaderValues.FirstOrDefault(s => s.StartsWith(Basic + ' ', StringComparison.OrdinalIgnoreCase));
+            string basicAuthorizationHeader = authorizationHeaderValues.FirstOrDefault(s => s.StartsWith(Basic + ' ', StringComparison.InvariantCultureIgnoreCase));
 
             // Authorization header is not 'Basic' so there is nothing to do by this middleware
             if (string.IsNullOrEmpty(basicAuthorizationHeader))
