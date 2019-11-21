@@ -101,7 +101,6 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
 
         /// <inheritdoc/>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Just for validation, the quickest")]
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1307:Specify StringComparison", Justification = "Invalid overload; known bug in code analysis")]
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             // RFC 7230 section 3.2.2
@@ -123,7 +122,12 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
                 return AuthenticateResult.NoResult();
             }
 
+#if NET461 || NETSTANDARD2_0
+
             string credentials = basicAuthorizationHeader.Replace($"{Basic} ", string.Empty).Trim();
+#else
+            string credentials = basicAuthorizationHeader.Replace($"{Basic} ", string.Empty, StringComparison.InvariantCultureIgnoreCase).Trim();
+#endif
 
             if (string.IsNullOrEmpty(credentials))
             {
