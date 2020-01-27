@@ -12,7 +12,10 @@ Install using the [ZNetCS.AspNetCore.Authentication.Basic NuGet package](https:/
 PM> Install-Package ZNetCS.AspNetCore.Authentication.Basic
 ```
 
-# Important change in 3.0.0 
+# Important change in 4.0.0
+From now assembly is signed.
+
+# Important change in 3.0.0
 The `OnValidatePrincipal` will not return `AuthenticationResult` any more. To simplify process can simply return `Task.CompletedTask`.
 Also to make success authentication `Principal` have to be assigned to `ValidatePrincipalContext` context.
 
@@ -23,7 +26,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="3.0.2" />
+    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="4.0.0" />
 </ItemGroup>
 ```
 
