@@ -12,6 +12,7 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
     #region Usings
 
     using System;
+    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
     using System.Text;
     using System.Text.Encodings.Web;
@@ -100,7 +101,7 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         protected override Task<object> CreateEventsAsync() => Task.FromResult<object>(new BasicAuthenticationEvents());
 
         /// <inheritdoc/>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Just for validation, the quickest")]
+        [SuppressMessage("Design", "CA1031:Do not catch general exception types", Justification = "Just for validation, the quickest")]
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             // RFC 7230 section 3.2.2
@@ -170,6 +171,11 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         protected override Task HandleChallengeAsync(AuthenticationProperties context)
         {
             this.Response.StatusCode = StatusCodes.Status401Unauthorized;
+
+            if (this.Options.SuppressWwwAuthenticateHeader)
+            {
+                return Task.CompletedTask;
+            }
 
             if ((this.Options.AjaxRequestOptions?.SuppressWwwAuthenticateHeader == true)
                 && this.Request.Headers.TryGetValue(

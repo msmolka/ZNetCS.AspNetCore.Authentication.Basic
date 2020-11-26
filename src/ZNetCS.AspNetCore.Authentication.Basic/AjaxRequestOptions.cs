@@ -30,7 +30,7 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         /// Gets or sets a value indicating whether suppress sending the WWWAuthenticate response header when a request has the
         /// header (X-Requested-With,XMLHttpRequest).
         /// </summary>
-        public bool SuppressWwwAuthenticateHeader { get; set; } = false;
+        public bool SuppressWwwAuthenticateHeader { get; set; }
 
         #endregion
     }

@@ -52,7 +52,7 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
                 .Configure(
                     app =>
                     {
-#if NETCOREAPP3_0
+#if NETCOREAPP3_1 || NET5_0
                         app.UseRouting();
                         app.UseAuthentication();
                         app.UseAuthorization();
@@ -90,7 +90,7 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
                 .Configure(
                     app =>
                     {
-#if NETCOREAPP3_0
+#if NETCOREAPP3_1 || NET5_0
                         app.UseRouting();
                         app.UseAuthentication();
                         app.UseAuthorization();

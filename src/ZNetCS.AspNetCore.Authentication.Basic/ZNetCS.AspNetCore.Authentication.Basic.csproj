@@ -4,32 +4,40 @@
     <Description>A simple basic authentication middleware.</Description>
     <Copyright>Marcin Smółka zNET Computer Solutions</Copyright>
     <Authors>Marcin Smółka</Authors>
-    <TargetFrameworks>net461;netstandard2.0;netcoreapp3.0</TargetFrameworks>
-    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TargetFrameworks>net461;netstandard2.0;netcoreapp3.1;net5.0</TargetFrameworks>
     <AssemblyName>ZNetCS.AspNetCore.Authentication.Basic</AssemblyName>
-    <PackageId>ZNetCS.AspNetCore.Authentication.Basic</PackageId>
-    <PackageTags>aspnetcore;aspnetcoremvc;middleware;authentication;basic;ASP.NET;MVC</PackageTags>
-    <PackageProjectUrl>https://github.com/msmolka/ZNetCS.AspNetCore.Authentication.Basic</PackageProjectUrl>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/msmolka/ZNetCS.AspNetCore.Authentication.Basic/master/LICENSE</PackageLicenseUrl>
-    <PackageReleaseNotes>Library is now signed.</PackageReleaseNotes>
-    <RepositoryType>git</RepositoryType>
-    <RepositoryUrl>https://github.com/msmolka/ZNetCS.AspNetCore.Authentication.Basic</RepositoryUrl>
-    <VersionPrefix>4.0.0</VersionPrefix>
-    <NoWarn>$(NoWarn);NU5125</NoWarn>
-    <!-- remove once tools are truly ready for NuGet's new 'license' element -->
+    <VersionPrefix>5.0.0</VersionPrefix>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
     <CodeAnalysisRuleSet>..\..\CommonRuleSet.ruleset</CodeAnalysisRuleSet>
-    <LangVersion>8.0</LangVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>StrongNameKey.snk</AssemblyOriginatorKeyFile>
+    <LangVersion>Latest</LangVersion>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>ZNetCS.AspNetCore.Authentication.Basic</PackageId>
+    <PackageTags>aspnetcore;aspnetcoremvc;middleware;authentication;basic;</PackageTags>
+    <PackageProjectUrl>https://github.com/msmolka/ZNetCS.AspNetCore.Authentication.Basic</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReleaseNotes>Update support for latest supported frameworks. Allow suppress WWWAuthenticate globally.</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/msmolka/ZNetCS.AspNetCore.Authentication.Basic</RepositoryUrl>
+  </PropertyGroup>
+
 
   <ItemGroup>
     <AdditionalFiles Include="..\..\stylecop.json" Link="stylecop.json" />
+    <None Include="..\..\LICENSE" Pack="true" PackagePath=""/>
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -38,7 +46,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -48,7 +56,7 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netcoreapp3.1' OR '$(TargetFramework)' == 'net5.0'">
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 

@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="Startup.cs" company="Marcin Smółka zNET Computer Solutions">
+// <copyright file="Startup1.cs" company="Marcin Smółka zNET Computer Solutions">
 //   Copyright (c) Marcin Smółka zNET Computer Solutions. All rights reserved.
 // </copyright>
 // <summary>
@@ -7,7 +7,7 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
-#if !NETCOREAPP3_0
+#if !NETCOREAPP3_1 && !NET5_0
 namespace ZNetCS.AspNetCore.Authentication.BasicTests
 {
     #region Usings

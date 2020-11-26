@@ -11,8 +11,6 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
 {
     #region Usings
 
-    using System.Diagnostics.CodeAnalysis;
-
     using Microsoft.AspNetCore.Authentication;
 
     using ZNetCS.AspNetCore.Authentication.Basic.Events;
@@ -41,7 +39,7 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         #region Public Properties
 
         /// <summary>
-        /// Gets or sets the ajax request options.
+        /// Gets or sets the ajax request options. Special authentication header handling for Ajax requests.
         /// </summary>
         public AjaxRequestOptions AjaxRequestOptions { get; set; }
 
@@ -75,8 +73,13 @@ namespace ZNetCS.AspNetCore.Authentication.Basic
         /// authentication scheme.Note that a response can have multiple
         /// challenges with the same auth-scheme but with different realms.
         /// </remarks>
-        [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "OK")]
         public string Realm { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether suppress sending the WWWAuthenticate response header.
+        /// In some rest scenarios it is not needed, so can be suppressed.
+        /// </summary>
+        public bool SuppressWwwAuthenticateHeader { get; set; }
 
         #endregion
     }

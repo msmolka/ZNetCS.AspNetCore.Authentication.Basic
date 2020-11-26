@@ -11,6 +11,9 @@ Install using the [ZNetCS.AspNetCore.Authentication.Basic NuGet package](https:/
 ```
 PM> Install-Package ZNetCS.AspNetCore.Authentication.Basic
 ```
+# Changes in 5.0.0
+Added direct references to latest framework and removed no longer supported frameworks.
+Added possibility to suppress WWWAuthenticate header globally not only on Ajax request.
 
 # Important change in 4.0.0
 From now assembly is signed.
@@ -26,7 +29,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="4.0.0" />
+    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="5.0.0" />
 </ItemGroup>
 ```
 

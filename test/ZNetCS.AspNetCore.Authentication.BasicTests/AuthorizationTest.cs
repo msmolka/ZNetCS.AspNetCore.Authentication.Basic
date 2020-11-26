@@ -268,6 +268,30 @@ namespace ZNetCS.AspNetCore.Authentication.BasicTests
             Assert.IsNull(wwwAuth, "No header should be sent back on ajax request");
         }
 
+        /// <summary>
+        /// The unauthorized basic realm via ajax.
+        /// </summary>
+        [TestMethod]
+        public async Task UnauthorizedMyRealmTestRequestSuppressed()
+        {
+            using var server = new TestServer(WebHostBuilderHelper.CreateBuilder(o =>
+            {
+                o.Realm = "My realm";
+                o.SuppressWwwAuthenticateHeader = true;
+            }));
+
+            using HttpClient client = server.CreateClient();
+
+            // Act
+            HttpResponseMessage response = await client.GetAsync("api/test");
+
+            // Assert
+            AuthenticationHeaderValue wwwAuth = response.Headers.WwwAuthenticate.SingleOrDefault();
+
+            Assert.AreEqual(HttpStatusCode.Unauthorized, response.StatusCode, "StatusCode != Unauthorized");
+            Assert.IsNull(wwwAuth, "No header should be sent back on ajax request");
+        }
+
         #endregion
     }
 }
