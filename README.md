@@ -130,7 +130,7 @@ builder.Services
         options =>
         {
             options.Realm = "My Application";
-            options.EventsType = typeof(AuthenticationEvents)
+            options.EventsType = typeof(AuthenticationEvents);
         });
 
 ```
