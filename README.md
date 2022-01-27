@@ -1,8 +1,10 @@
 # ZNetCS.AspNetCore.Authentication.Basic
 
 [![NuGet](https://img.shields.io/nuget/v/ZNetCS.AspNetCore.Authentication.Basic.svg)](https://www.nuget.org/packages/ZNetCS.AspNetCore.Authentication.Basic)
+[![Build](https://github.com/msmolka/ZNetCS.AspNetCore.Authentication.Basic/workflows/build/badge.svg)](https://github.com/msmolka/ZNetCS.AspNetCore.Authentication.Basic/actions)
 
-A simple basic authentication middleware.
+A simple basic authentication middleware. Allows setup authentication using configuration or dependency injection 
+and suppress `WWW-Authenticate` header globally or for AJAX request.
 
 ## Installing 
 
