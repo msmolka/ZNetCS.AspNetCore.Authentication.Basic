@@ -1,0 +1,62 @@
+<Project>
+  <PropertyGroup>
+    <Version>6.0.0</Version>
+    <PackageReleaseNotes>Breaking Change: Drop support for netstandard and .net framework. Code refactoring. Dependency update. Nullable enable. Events are initialized once in handler only or configuration.</PackageReleaseNotes>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <Title>ZNetCS.AspNetCore.Authentication.Basic</Title>
+    <Product>ZNetCS.AspNetCore.Authentication.Basic</Product>
+    <Description>A simple basic authentication middleware.</Description>
+    <Authors>Marcin Smółka</Authors>
+    <Owners>Marcin Smółka</Owners>
+    <Copyright>Copyright © Marcin Smółka 2017 - 2022</Copyright>
+    <Company>Marcin Smółka zNET Computer Solutions</Company>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>ZNetCS.AspNetCore.Authentication.Basic</PackageId>
+    <PackageTags>aspnetcore;aspnetcoremvc;middleware;authentication;basic;basicauthentication</PackageTags>
+    <PackageProjectUrl>https://github.com/msmolka/ZNetCS.AspNetCore.Authentication.Basic</PackageProjectUrl>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <RepositoryUrl>https://github.com/msmolka/ZNetCS.AspNetCore.Authentication.Basic</RepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\StrongNameKey.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  
+  <PropertyGroup>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\..\stylecop.json" Link="stylecop.json"/>
+    <None Include="..\..\LICENSE" Pack="true" PackagePath="\" />
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors />
+  </PropertyGroup>
+
+
+</Project>

@@ -5,17 +5,26 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EC6AC5C8-ACCF-492E-99E6-28E935E993C4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EBBE213E-359F-4158-9AB8-3C46BDBAA30C}"
-	ProjectSection(SolutionItems) = preProject
-		LICENSE = LICENSE
-		README.md = README.md
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{3D8699E9-972B-47E0-9A9F-FEA369A9C832}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZNetCS.AspNetCore.Authentication.Basic", "src\ZNetCS.AspNetCore.Authentication.Basic\ZNetCS.AspNetCore.Authentication.Basic.csproj", "{0C36B232-F48E-4BCC-8F11-840A9694B75D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZNetCS.AspNetCore.Authentication.BasicTests", "test\ZNetCS.AspNetCore.Authentication.BasicTests\ZNetCS.AspNetCore.Authentication.BasicTests.csproj", "{16932A67-81EA-4D76-873C-C22FA81F1A2D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "build", "build", "{5A15D786-35D6-47BB-99A9-14D828934F12}"
+	ProjectSection(SolutionItems) = preProject
+		src\Directory.Build.props = src\Directory.Build.props
+		src\StrongNameKey.snk = src\StrongNameKey.snk
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{5A300F7D-BFC6-4E63-899F-0AAF99705C0F}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		README.md = README.md
+		stylecop.json = stylecop.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
