@@ -9,7 +9,7 @@
 
 namespace ZNetCS.AspNetCore.Authentication.Basic;
 
-#region Usings
+    #region Usings
 
 using System;
 using System.Diagnostics.CodeAnalysis;
@@ -53,6 +53,15 @@ public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticat
 
     #endregion
 
+    #region Fields
+
+    /// <summary>
+    /// The logger.
+    /// </summary>
+    private readonly ILogger logger;
+
+    #endregion
+
     #region Constructors and Destructors
 
     /// <summary>
@@ -61,8 +70,8 @@ public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticat
     /// <param name="options">
     /// The options.
     /// </param>
-    /// <param name="logger">
-    /// The logger.
+    /// <param name="loggerFactory">
+    /// The logger factory.
     /// </param>
     /// <param name="encoder">
     /// The encoder.
@@ -70,10 +79,9 @@ public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticat
     /// <param name="clock">
     /// The clock.
     /// </param>
-    public BasicAuthenticationHandler(IOptionsMonitor<BasicAuthenticationOptions> options, ILoggerFactory logger, UrlEncoder encoder, ISystemClock clock)
-        : base(options, logger, encoder, clock)
-    {
-    }
+    public BasicAuthenticationHandler(IOptionsMonitor<BasicAuthenticationOptions> options, ILoggerFactory loggerFactory, UrlEncoder encoder, ISystemClock clock)
+        : base(options, loggerFactory, encoder, clock)
+        => this.logger = loggerFactory.CreateLogger<BasicAuthenticationHandler>();
 
     #endregion
 
@@ -108,7 +116,7 @@ public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticat
         // there is no authorization header so there is nothing to do by this middleware
         if (authorizationHeaderValues.Length == 0)
         {
-            this.Logger.LogDebug("'Authorization' header is not present in the request.");
+            this.logger.AuthorizationHeaderNotPresent();
             return AuthenticateResult.NoResult();
         }
 
@@ -117,7 +125,7 @@ public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticat
         // Authorization header is not 'Basic' so there is nothing to do by this middleware
         if (string.IsNullOrEmpty(basicAuthorizationHeader))
         {
-            this.Logger.LogDebug("'Authorization' header is not in 'Basic' scheme in the request.");
+            this.logger.AuthorizationHeaderNotBasic();
             return AuthenticateResult.NoResult();
         }
 
@@ -170,7 +178,8 @@ public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticat
             return Task.CompletedTask;
         }
 
-        if (this.Options.AjaxRequestOptions.SuppressWwwAuthenticateHeader && this.Request.Headers.TryGetValue(this.Options.AjaxRequestOptions.HeaderName, out StringValues value))
+        if (this.Options.AjaxRequestOptions.SuppressWwwAuthenticateHeader &&
+            this.Request.Headers.TryGetValue(this.Options.AjaxRequestOptions.HeaderName, out StringValues value))
         {
             if (value == this.Options.AjaxRequestOptions.HeaderValue)
             {
