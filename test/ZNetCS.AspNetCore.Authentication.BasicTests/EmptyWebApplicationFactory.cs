@@ -24,35 +24,28 @@ using Microsoft.Extensions.Logging;
 internal class EmptyWebApplicationFactory : WebApplicationFactory<EmptyStartup>
 {
     /// <inheritdoc/>
-    protected override IHostBuilder CreateHostBuilder()
-    {
-        return Host.CreateDefaultBuilder()
-            .ConfigureWebHostDefaults(
-                builder =>
-                {
-                    builder.ConfigureServices(s => { s.AddMvc(); })
-                        .Configure(
-                            app =>
-                            {
-                                app.UseRouting();
-                                app.UseAuthentication();
-                                app.UseAuthorization();
-                                app.UseEndpoints(o => o.MapControllers());
-                            })
-                        .ConfigureLogging(
-                            (_, logging) =>
-                            {
-                                logging
-                                    .AddFilter("Default", LogLevel.Debug)
-                                    .AddDebug();
-                            });
-                });
-    }
+    protected override IHostBuilder CreateHostBuilder() => Host.CreateDefaultBuilder().ConfigureWebHostDefaults(_ => { });
 
     /// <inheritdoc />
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseContentRoot(GetPath() ?? string.Empty);
+        builder.ConfigureServices(s => { s.AddMvc(); });
+        builder.Configure(
+            app =>
+            {
+                app.UseRouting();
+                app.UseAuthentication();
+                app.UseAuthorization();
+                app.UseEndpoints(o => o.MapControllers());
+            });
+        builder.ConfigureLogging(
+            (_, logging) =>
+            {
+                logging
+                    .AddFilter("Default", LogLevel.Debug)
+                    .AddDebug();
+            });
     }
 
     /// <summary>

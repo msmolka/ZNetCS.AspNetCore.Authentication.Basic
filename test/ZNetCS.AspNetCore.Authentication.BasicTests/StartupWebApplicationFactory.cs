@@ -6,7 +6,7 @@
 
 namespace ZNetCS.AspNetCore.Authentication.BasicTests;
 
-    #region Usings
+#region Usings
 
 using System.IO;
 using System.Reflection;
@@ -24,28 +24,20 @@ using Microsoft.Extensions.Logging;
 internal class StartupWebApplicationFactory : WebApplicationFactory<Startup>
 {
     /// <inheritdoc/>
-    protected override IHostBuilder CreateHostBuilder()
-    {
-        return Host.CreateDefaultBuilder()
-            .ConfigureWebHostDefaults(
-                builder =>
-                {
-                    builder
-                        .UseStartup<Startup>()
-                        .ConfigureLogging(
-                            (_, logging) =>
-                            {
-                                logging
-                                    .AddFilter("Default", LogLevel.Debug)
-                                    .AddDebug();
-                            });
-                });
-    }
+    protected override IHostBuilder CreateHostBuilder() => Host.CreateDefaultBuilder().ConfigureWebHostDefaults(_ => { });
 
     /// <inheritdoc />
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
         builder.UseContentRoot(GetPath() ?? string.Empty);
+        builder.UseStartup<Startup>();
+        builder.ConfigureLogging(
+            (_, logging) =>
+            {
+                logging
+                    .AddFilter("Default", LogLevel.Debug)
+                    .AddDebug();
+            });
     }
 
     /// <summary>
