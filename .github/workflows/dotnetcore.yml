@@ -9,31 +9,21 @@ jobs:
     
     strategy:
       matrix:
-        os: [macOS-latest, ubuntu-latest, windows-latest]
+        os: [ubuntu-latest, windows-latest]
     steps:
       - name: Setup .NET Core 3.1
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '3.1.x'
-      - name: Setup .NET 5.0
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '5.0.x'
-      - name: Setup .NET 6.0
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
+          dotnet-version: | 
+            3.1.x
+            5.0.x
+            6.0.x
+            7.0.x
+            8.0.x
+            9.0.x
       - name: Checkout
-        uses: actions/checkout@v2
-      - name: Build with dotnet for .NET CORE 3.1
-        run: dotnet build ./src/ZNetCS.AspNetCore.Authentication.Basic/ZNetCS.AspNetCore.Authentication.Basic.csproj --configuration Release --framework netcoreapp3.1
-      - name: Build with dotnet for .NET 5.0
-        run: dotnet build ./src/ZNetCS.AspNetCore.Authentication.Basic/ZNetCS.AspNetCore.Authentication.Basic.csproj --configuration Release --framework net5.0
-      - name: Build with dotnet for .NET 6.0
-        run: dotnet build ./src/ZNetCS.AspNetCore.Authentication.Basic/ZNetCS.AspNetCore.Authentication.Basic.csproj --configuration Release --framework net6.0
-      - name: Test with dotnet for .NET CORE 3.1
-        run: dotnet test ./test/ZNetCS.AspNetCore.Authentication.BasicTests/ZNetCS.AspNetCore.Authentication.BasicTests.csproj --framework netcoreapp3.1
-      - name: Test with dotnet for .NET 5.0
-        run: dotnet test ./test/ZNetCS.AspNetCore.Authentication.BasicTests/ZNetCS.AspNetCore.Authentication.BasicTests.csproj --framework net5.0
-      - name: Test with dotnet for .NET 6.0
-        run: dotnet test ./test/ZNetCS.AspNetCore.Authentication.BasicTests/ZNetCS.AspNetCore.Authentication.BasicTests.csproj --framework net6.0
+        uses: actions/checkout@v4
+      - name: Build
+        run: dotnet build ./src/ZNetCS.AspNetCore.Authentication.Basic/ZNetCS.AspNetCore.Authentication.Basic.csproj --configuration Release
+      - name: Test
+        run: dotnet test ./test/ZNetCS.AspNetCore.Authentication.BasicTests/ZNetCS.AspNetCore.Authentication.BasicTests.csproj --configuration Release

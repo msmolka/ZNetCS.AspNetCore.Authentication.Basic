@@ -40,7 +40,7 @@ When you install the package, it should be added to your `.csproj`. Alternativel
 
 ```xml
 <ItemGroup>
-    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="6.0.1" />
+    <PackageReference Include="ZNetCS.AspNetCore.Authentication.Basic" Version="9.0.0" />
 </ItemGroup>
 ```
 

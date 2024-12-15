@@ -64,6 +64,23 @@ public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticat
 
     #region Constructors and Destructors
 
+#if NET8_0_OR_GREATER
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BasicAuthenticationHandler"/> class.
+    /// </summary>
+    /// <param name="options">
+    /// The options.
+    /// </param>
+    /// <param name="loggerFactory">
+    /// The logger factory.
+    /// </param>
+    /// <param name="encoder">
+    /// The encoder.
+    /// </param>
+    public BasicAuthenticationHandler(IOptionsMonitor<BasicAuthenticationOptions> options, ILoggerFactory loggerFactory, UrlEncoder encoder)
+        : base(options, loggerFactory, encoder)
+        => this.logger = loggerFactory.CreateLogger<BasicAuthenticationHandler>();
+#else
     /// <summary>
     /// Initializes a new instance of the <see cref="BasicAuthenticationHandler"/> class.
     /// </summary>
@@ -82,7 +99,7 @@ public class BasicAuthenticationHandler : AuthenticationHandler<BasicAuthenticat
     public BasicAuthenticationHandler(IOptionsMonitor<BasicAuthenticationOptions> options, ILoggerFactory loggerFactory, UrlEncoder encoder, ISystemClock clock)
         : base(options, loggerFactory, encoder, clock)
         => this.logger = loggerFactory.CreateLogger<BasicAuthenticationHandler>();
-
+#endif
     #endregion
 
     #region Properties

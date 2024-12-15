@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
-    <Version>6.0.1</Version>
-    <PackageReleaseNotes>Breaking Change: Drop support for netstandard and .net framework. Code refactoring. Dependency update. Nullable enable. Events are initialized once in handler only or configuration.</PackageReleaseNotes>
+    <Version>9.0.0</Version>
+    <PackageReleaseNotes>Added support for .net core 7, 8, and 9</PackageReleaseNotes>
   </PropertyGroup>
   
   <PropertyGroup>
@@ -10,7 +10,7 @@
     <Description>A simple basic authentication middleware.</Description>
     <Authors>Marcin Smółka</Authors>
     <Owners>Marcin Smółka</Owners>
-    <Copyright>Copyright © Marcin Smółka 2017 - 2022</Copyright>
+    <Copyright>Copyright © Marcin Smółka 2017 - 2024</Copyright>
     <Company>Marcin Smółka zNET Computer Solutions</Company>
   </PropertyGroup>
 
@@ -43,12 +43,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="6.0.0">
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="8.0.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.354">
+    <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.556">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
