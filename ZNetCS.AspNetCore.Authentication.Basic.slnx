@@ -1,0 +1,22 @@
+<Solution>
+  <Folder Name="/build/">
+    <File Path="src/Directory.Build.props" />
+    <File Path="src/StrongNameKey.snk" />
+  </Folder>
+  <Folder Name="/config/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="LICENSE" />
+    <File Path="README.md" />
+    <File Path="stylecop.json" />
+  </Folder>
+  <Folder Name="/pipelines/">
+    <File Path=".github/workflows/dotnetcore.yml" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/ZNetCS.AspNetCore.Authentication.Basic/ZNetCS.AspNetCore.Authentication.Basic.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/ZNetCS.AspNetCore.Authentication.BasicTests/ZNetCS.AspNetCore.Authentication.BasicTests.csproj" />
+  </Folder>
+</Solution>

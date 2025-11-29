@@ -11,16 +11,15 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest]
     steps:
-      - name: Setup .NET Core 3.1
+      - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
           dotnet-version: | 
-            3.1.x
-            5.0.x
             6.0.x
             7.0.x
             8.0.x
             9.0.x
+            10.0.x
       - name: Checkout
         uses: actions/checkout@v4
       - name: Build
